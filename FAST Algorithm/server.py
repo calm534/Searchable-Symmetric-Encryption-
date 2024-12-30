@@ -172,7 +172,7 @@ def fast_server_search(conn, addr, T):
         # Update sti using the inverse permutation function
         sti = inverse_permutation(ki, sti)
     
-    conn.send(ID)
+    conn.send(ID[-1])
     conn.close()
 
 
