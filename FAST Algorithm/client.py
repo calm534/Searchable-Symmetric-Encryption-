@@ -136,16 +136,21 @@ def fast_client_update(key, S, ind, w, op, client):
     # Step 11-12: Create e
     term1 = concatenate_byte_strings(adjust_and_concatenate(ind, op), kc_next) # this will always be of size 48 bytes, op will be at the end, and the ind will be truncated or padded acc to size
     term2 = hash_byte_string_sha384(concatenate_byte_strings(tw, stc_next))# this will alwayys be of size 48 bytes
+    e=""
+    u=""
     e = xor_bytes(term1, term2) # of 48 bytes
     
     # Step 13: Calculate u
     u = hash_byte_string_blake2b(concatenate_byte_strings(tw, stc_next))
-    
+    print(e)
+    print(u)
     # Step 14: Send u and e to server
     client.send(u)
     print(f'SENT - u')
+    time.sleep(10)
     client.send(e)
     print(f'SENT - e')
+    time.sleep(10)
 
 def fast_client_search(key, S, w):
     # Step 4: Calculate tw
@@ -206,9 +211,11 @@ def start_client():
         # fast_client_update(ks, S, ind1, w1, op1, client_socket)
 
         for i in range(1, 5):
+            print(i)
             if i % 2 == 0:
                 fast_client_update(ks, S, ind1, w1, op1, client_socket)
             else:
+                print("I am odd")
                 fast_client_update(ks, S, ind2, w2, op2, client_socket)
         
         
